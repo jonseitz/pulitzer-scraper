@@ -1,4 +1,3 @@
-var express = require('express');
 var assert = require('assert');
 var request = require('request');
 var fs = require('fs');
@@ -12,8 +11,8 @@ var allWinners = [];
 var tid = 204;
 
 
-//loop through tid values below 225 (highest category value)
-while(tid >= 204 && tid <= 225){
+//loop through tid values from 204 to 225, then from 260 to 278  (highest category value)
+while(tid >= 204 && tid <= 278){
 	API.get_winners_by_cat(tid, function(list){
 		json2csv({data: list, fields: fields}, function(err, csv){
 			if (err) console.log(err);
@@ -25,18 +24,28 @@ while(tid >= 204 && tid <= 225){
 
 	});
 	console.log('category ' + tid + ' saved');	
-	tid += 1;
+	if (tid == 225) {
+		tid = 260;
+	}
+	else{
+		tid += 1;
+	}
 }
 
-/**
+
+/*
 // logs a list of tid: category relationships
 // I used it while developing. Uncomment if you want to test yourself.
 
-while (tid >= 204 && tid <= 225){
+while (tid >= 204 && tid <= 278){
 	API.get_cat_from_tid(tid, function(tid, name){
 		console.log(tid+': '+name);
 	});
-	tid += 1;
+	if (tid == 226) {
+		tid = 260;
+	}
+	else{
+		tid += 1;
+	}
 };
-
-**/
+*/
