@@ -11,6 +11,7 @@ var allWinners = [];
 //setting initial tid value to 204 (lowest category value)
 var tid = 204;
 
+
 //loop through tid values below 225 (highest category value)
 while(tid >= 204 && tid <= 225){
 	API.get_winners_by_cat(tid, function(list){
@@ -26,3 +27,16 @@ while(tid >= 204 && tid <= 225){
 	console.log('category ' + tid + ' saved');	
 	tid += 1;
 }
+
+/**
+// logs a list of tid: category relationships
+// I used it while developing. Uncomment if you want to test yourself.
+
+while (tid >= 204 && tid <= 225){
+	API.get_cat_from_tid(tid, function(tid, name){
+		console.log(tid+': '+name);
+	});
+	tid += 1;
+};
+
+**/
