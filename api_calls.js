@@ -5,7 +5,7 @@ var API_CALLS = {
 	//Grab all of the winners in a single category, returning an array of simplified objects.
 	get_winners_by_cat: function (tid, callback) {
 		//checks that tid is a valid category
-		if (tid >= 204 && tid <= 225) {
+		if (tid >= 204 && tid <= 278) {
 			this.get_cat_from_tid(tid, function(tid, catName){
 				//forming the API endpoint url
 				var winnersUrl = 'http://www.pulitzer.org/cms/api/1/winners/cat/' + tid + '/raw.json';
