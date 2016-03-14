@@ -44,21 +44,22 @@ var API_CALLS = {
 			return null;
 		}
 	},
+	//translate a tid into a category
 	get_cat_from_tid: function (tid, callback) {
-			//forming the API url
-			var catUrl = 'http://www.pulitzer.org/cms/api/1/term/' + tid + '/raw.json';
-			request({
-				url: catUrl,
-				json: true
-			}, function(error, response, body){
-				assert.equal(error, null);
-				if (body.name){
-					callback(tid, body.name);
-				}
-				else {
-					return null
-				}
-			});
+		//forming the API url
+		var catUrl = 'http://www.pulitzer.org/cms/api/1/term/' + tid + '/raw.json';
+		request({
+			url: catUrl,
+			json: true
+		}, function(error, response, body){
+			assert.equal(error, null);
+			if (body.name){
+				callback(tid, body.name);
+			}
+			else {
+				return null
+			}
+		});
 	}
 };
 
