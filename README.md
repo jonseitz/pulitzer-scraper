@@ -25,7 +25,7 @@ run app:
 ### GET winners in a given Category
 `http://www.pulitzer.org/cms/api/1/winners/cat/ [tid] /raw.json`
 
-The `tid` range for categories goes from **204** _("Public Service")_ - **225** _("Music")_: 
+The `tid` range for current categories goes from **204** _("Public Service")_ - **225** _("Music")_:
 
 * 204: Public Service
 * 205: Breaking News Reporting
@@ -49,6 +49,30 @@ The `tid` range for categories goes from **204** _("Public Service")_ - **225** 
 * 223: General Nonfiction
 * 224: Poetry
 * 225: Music
+
+Deprecated/Special categories are in a separate range from **260** _(Special Awards & Citations)_ - **278** _(Beat Reportting)_
+: 
+
+
+* 260: Special Awards and Citations
+* 261: Novel
+* 262: _Blank_
+* 263: Correspondence
+* 264: Explanatory Journalism
+* 265: General News Reporting
+* 266: Local General or Spot News Reporting
+* 267: Local Investigative Specialized Reporting
+* 268: Local Reporting - Edition time
+* 269: Local Reporting - No edition time
+* 270: Newspaper History Award
+* 271: Photography
+* 272: Reporting
+* 273: Specialized Reporting
+* 274: Spot News Photography
+* 275: Spot News Reporting
+* 276: Telegraphic Reporting - International
+* 277: Telegraphic Reporting - National
+* 278: Beat Reporting
 
 
 ### GET winners for a given year
