@@ -27,28 +27,28 @@ run app:
 
 The `tid` range for categories goes from **204** _("Public Service")_ - **225** _("Music")_: 
 
-204: Public Service
-205: Breaking News Reporting
-206: Investigative Reporting
-207: Explanatory Reporting
-208: Local Reporting
-209: National Reporting
-210: International Reporting
-211: Feature Writing
-212: Commentary
-213: Criticism
-214: Editorial Writing
-215: Editorial Cartooning
-216: Breaking News Photography
-217: Feature Photography
-218: Drama
-219: Fiction
-220: History
-221: _Blank_
-222: Biography or Autobiography
-223: General Nonfiction
-224: Poetry
-225: Music
+> 204: Public Service
+> 205: Breaking News Reporting
+> 206: Investigative Reporting
+> 207: Explanatory Reporting
+> 208: Local Reporting
+> 209: National Reporting
+> 210: International Reporting
+> 211: Feature Writing
+> 212: Commentary
+> 213: Criticism
+> 214: Editorial Writing
+> 215: Editorial Cartooning
+> 216: Breaking News Photography
+> 217: Feature Photography
+> 218: Drama
+> 219: Fiction
+> 220: History
+> 221: _Blank_
+> 222: Biography or Autobiography
+> 223: General Nonfiction
+> 224: Poetry
+> 225: Music
 
 
 ### GET winners for a given year
