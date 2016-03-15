@@ -50,8 +50,7 @@ The `tid` range for current categories goes from **204** _("Public Service")_ - 
 * 224: Poetry
 * 225: Music
 
-Deprecated/Special categories are in a separate range from **260** _(Special Awards & Citations)_ - **278** _(Beat Reportting)_
-: 
+Deprecated/Special categories are in a separate range from **260** _(Special Awards & Citations)_ - **278** _(Beat Reportting)_: 
 
 
 * 260: Special Awards and Citations
@@ -74,6 +73,11 @@ Deprecated/Special categories are in a separate range from **260** _(Special Awa
 * 277: Telegraphic Reporting - National
 * 278: Beat Reporting
 
+### GET finalists in a given category
+
+`http://www.pulitzer.org/cms/api/1/finalist/ [tid] /all/raw.json`
+
+_`tid` ranges mirror those above._
 
 ### GET winners for a given year
 `http://www.pulitzer.org/cms/api/1/winners/year/ [tid] /raw.json`
@@ -81,9 +85,15 @@ Deprecated/Special categories are in a separate range from **260** _(Special Awa
 The `tid` range for years goes from **105** _(2015)_ - **203** _(1917)_. 
 
 
+### GET finalists for a given year
+
+`http://www.pulitzer.org/cache/api/1/finalist/all/ [tid] /raw.json`
+
+_`tid` ranges mirror those above._
+
 ### Get term information
 `http://www.pulitzer.org/cms/api/1/term/ [tid] /raw.json`
 
 Enter any `tid` to translate the category or year id into a real category.
 
-_FYI: `tid` values above 225 appear to be categories or tags. The highest value I found is 549, which is "Alaska"._ 
+_FYI: `tid` values above 278 appear to be categories or tags. The highest value I found is 549, which is "Alaska"._ 
