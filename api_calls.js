@@ -17,6 +17,19 @@ var API_CALLS = {
 			else return null;
 		});
 	},
+	get_finalists_by_cat: function(tid, callback) {
+		var finalistsUrl = 'http://www.pulitzer.org/cms/api/1/finalist/' + tid + '/all/raw.json';
+		request({
+			url: finalistsUrl,
+			json: true
+		}, function(error, response, body){
+			assert.equal(error, null);
+			if (body && body instanceof Array){
+				callback(tid, body);
+			}
+			else return null;
+		});
+	},
 	//translate a tid into a category
 	get_cat_from_tid: function (tid, callback) {
 		//forming the API url
