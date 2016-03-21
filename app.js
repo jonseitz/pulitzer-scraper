@@ -4,14 +4,21 @@ var fs = require('fs');
 var json2csv = require('json2csv');
 var API = require('./api_calls');
 
-var fields = ['category', 'year', 'type', 'title', 'publication', 'citation'];
+var writeCSV = function (list, filename) {
+	json2csv({data: list}, function(err, csv){
+		if (err) {
+			console.log(err);
+		}
+		fs.appendFile(filename, csv, function (err){
+			console.log('wrote category ' + tid + ' to ' + filename);
+			if(err) throw err;
+		});
+	});
+};
 
-
-//setting initial tid value to 204 (lowest category value)
-var tid = 204;
-
-var writeJSONToCSV = function (tid, body) {
+var writeWinnersList = function (tid, body) {
 	var list = [];
+	var filename = 'winners.csv';
 	API.get_cat_from_tid(tid, function(tid, cat){
 		body.forEach(function(val, index){
 			//compute the year from tid
@@ -35,24 +42,50 @@ var writeJSONToCSV = function (tid, body) {
 				"publication": publication,
 				"citation": citation
 			});
-		});
-		json2csv({data: list, fields: fields}, function(err, csv){
-			if (err) {
-				console.log(err);
+			if (index == 0 && val.type + 's.csv' != filename){
+				filename = val.type + 's.csv';
 			}
-			fs.appendFile('pulitzers.csv', csv, function (err){
-				if(err) throw err;
-			});
 		});
+		writeCSV(list, filename);
 	});
 };
 
+var writeRevisionList = function (tid, body) {
+	var list = [];
+	var fields = ['category', 'revNum', 'year', 'description'];
+	var filename = 'revisions.csv';
+	var revisions = [];
+]	if (body.field_years_collection.und){
+		var revisions = body.field_years_collection.und;
+	};
+	revisions.forEach(function(val, index){
+		var year, description = "N/A";
+		if (val.item.field_awards_description.und){
+			description = val.item.field_awards_description.und[0].safe_value;
+		}
+		if (val.item.field_years_range.und){
+			year = API.get_year_from_tid(val.item.field_years_range.und[0].tid);
+		}
+		list.push({
+			"category": body.name,
+			"revNum": index,
+			"year": year,
+			"description": description,
+		});
+	});
+	writeCSV(list, filename);
+};
+
+//setting initial tid value to 204 (lowest category value)
+var tid = 204;
 
 //loop through tid values from 204 to 225, then from 260 to 278  (highest category value)
-
+//write separate csv files for winners, finalist, and revisions to categories.
 //Write winners 
-while(tid >= 204 && tid <= 278){
-	API.get_winners_by_cat(tid, writeJSONToCSV);
+while(tid >= 204 && tid <= 205){
+	//API.get_winners_by_cat(tid, writeWinnersList);
+	//API.get_finalists_by_cat(tid, writeWinnersList);
+	API.get_cat_from_tid(tid, writeRevisionList);
 	if (tid == 225) {
 		tid = 260;
 	}
@@ -60,25 +93,6 @@ while(tid >= 204 && tid <= 278){
 		tid += 1;
 	}
 }
-
-tid = 204;
-//write finalists 
-while(tid >= 204 && tid <= 278){
-	API.get_finalists_by_cat(tid, writeJSONToCSV);
-	if (tid == 225) {
-		tid = 260;
-	}
-	else{
-		tid += 1;
-	}
-}
-
-
-//get list of revisions to all of the category descriptions
-
-
-
-
 
 /*
 // writes a list of tid: category relationships to 'categories.txt';
