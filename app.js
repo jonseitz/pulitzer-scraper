@@ -4,7 +4,7 @@ var fs = require('fs');
 var json2csv = require('json2csv');
 var API = require('./api_calls');
 
-var writeCSV = function (list, filename) {
+var writeCSV = function (tid, list, filename) {
 	json2csv({data: list}, function(err, csv){
 		if (err) {
 			console.log(err);
@@ -23,14 +23,14 @@ var writeWinnersList = function (tid, body) {
 		body.forEach(function(val, index){
 			//compute the year from tid
 			var publication, citation, year = 'N/A';
-			if (val.field_year.und){
+			if ("field_year.und" in val){
 				year = API.get_year_from_tid(val.field_year.und[0].tid);
 			}
 			// get the citation and publication info, or return "N/A"
-			if (val.field_publication.und){
+			if ("field_publication.und" in val){
 				publication = val.field_publication.und[0].safe_value;
 			}
-			if (val.field_abbr_citation.und){
+			if ("field_abbr_citation.und" in val){
 				citation = val.field_abbr_citation.und[0].safe_value;
 			}
 			//console.log(cat.name + ',' + year + ',' + val.type + ',' + val.title + ',' + publication + ',' + citation);
@@ -46,7 +46,7 @@ var writeWinnersList = function (tid, body) {
 				filename = val.type + 's.csv';
 			}
 		});
-		writeCSV(list, filename);
+		writeCSV(tid, list, filename);
 	});
 };
 
@@ -55,15 +55,15 @@ var writeRevisionList = function (tid, body) {
 	var fields = ['category', 'revNum', 'year', 'description'];
 	var filename = 'revisions.csv';
 	var revisions = [];
-]	if (body.field_years_collection.und){
+	if ("field_years_collection.und" in body){
 		var revisions = body.field_years_collection.und;
 	};
 	revisions.forEach(function(val, index){
 		var year, description = "N/A";
-		if (val.item.field_awards_description.und){
+		if ("item.field_awards_description.und" in val){
 			description = val.item.field_awards_description.und[0].safe_value;
 		}
-		if (val.item.field_years_range.und){
+		if ("item.field_years_range.und" in val){
 			year = API.get_year_from_tid(val.item.field_years_range.und[0].tid);
 		}
 		list.push({
@@ -73,7 +73,7 @@ var writeRevisionList = function (tid, body) {
 			"description": description,
 		});
 	});
-	writeCSV(list, filename);
+	writeCSV(tid, list, filename);
 };
 
 //setting initial tid value to 204 (lowest category value)
@@ -82,9 +82,9 @@ var tid = 204;
 //loop through tid values from 204 to 225, then from 260 to 278  (highest category value)
 //write separate csv files for winners, finalist, and revisions to categories.
 //Write winners 
-while(tid >= 204 && tid <= 205){
-	//API.get_winners_by_cat(tid, writeWinnersList);
-	//API.get_finalists_by_cat(tid, writeWinnersList);
+while(tid >= 204 && tid <= 278){
+	API.get_winners_by_cat(tid, writeWinnersList);
+	API.get_finalists_by_cat(tid, writeWinnersList);
 	API.get_cat_from_tid(tid, writeRevisionList);
 	if (tid == 225) {
 		tid = 260;
