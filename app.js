@@ -5,15 +5,17 @@ var json2csv = require('json2csv');
 var API = require('./api_calls');
 
 var writeCSV = function (tid, list, filename) {
-	json2csv({data: list}, function(err, csv){
-		if (err) {
-			console.log(err);
-		}
-		fs.appendFile(filename, csv, function (err){
-			console.log('wrote category ' + tid + ' to ' + filename);
-			if(err) throw err;
+	if (list instanceof Array && list.length > 0){
+		json2csv({data: list}, function(err, csv){
+			if (err) {
+				console.log(err);
+			}
+			fs.appendFile(filename, csv, function (err){
+				console.log('wrote category ' + tid + ' to ' + filename);
+				if(err) throw err;
+			});
 		});
-	});
+	}
 };
 
 var writeWinnersList = function (tid, body) {
@@ -23,16 +25,19 @@ var writeWinnersList = function (tid, body) {
 		body.forEach(function(val, index){
 			//compute the year from tid
 			var publication, citation, year = 'N/A';
-			if ("field_year.und" in val){
+			try {
 				year = API.get_year_from_tid(val.field_year.und[0].tid);
 			}
+			catch (e){};
 			// get the citation and publication info, or return "N/A"
-			if ("field_publication.und" in val){
+			try {
 				publication = val.field_publication.und[0].safe_value;
 			}
-			if ("field_abbr_citation.und" in val){
+			catch (e){};
+			try {
 				citation = val.field_abbr_citation.und[0].safe_value;
 			}
+			catch (e){};
 			//console.log(cat.name + ',' + year + ',' + val.type + ',' + val.title + ',' + publication + ',' + citation);
 			list.push({
 				"category": cat.name,
@@ -55,24 +60,29 @@ var writeRevisionList = function (tid, body) {
 	var fields = ['category', 'revNum', 'year', 'description'];
 	var filename = 'revisions.csv';
 	var revisions = [];
-	if ("field_years_collection.und" in body){
-		var revisions = body.field_years_collection.und;
-	};
-	revisions.forEach(function(val, index){
-		var year, description = "N/A";
-		if ("item.field_awards_description.und" in val){
-			description = val.item.field_awards_description.und[0].safe_value;
-		}
-		if ("item.field_years_range.und" in val){
-			year = API.get_year_from_tid(val.item.field_years_range.und[0].tid);
-		}
-		list.push({
-			"category": body.name,
-			"revNum": index,
-			"year": year,
-			"description": description,
+	try {
+		revisions = body.field_years_collection.und;
+	}
+	catch (e){};
+	if (revisions instanceof Array){
+		revisions.forEach(function(val, index){
+			var year, description = "N/A";
+			try {
+				description = val.item.field_awards_description.und[0].safe_value;
+			}
+			catch (e){};
+			try {
+				year = API.get_year_from_tid(val.item.field_years_range.und[0].tid);
+			}
+			catch(e){};
+			list.push({
+				"category": body.name,
+				"revNum": index,
+				"year": year,
+				"description": description,
+			});
 		});
-	});
+	};
 	writeCSV(tid, list, filename);
 };
 
