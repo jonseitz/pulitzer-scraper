@@ -37,3 +37,7 @@ pulitzers.csv
 winners.csv
 finalists.csv
 revisions.csv
+
+# proprietary info
+nieman-fellows.csv
+nieman-winners.csv
