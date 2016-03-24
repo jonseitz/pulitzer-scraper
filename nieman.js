@@ -20,7 +20,9 @@ fs.createReadStream('nieman-fellows.csv')
 							if (err) {
 								console.log(err);
 							}
-							csv.replace('"category","year","type","title","publication","citation","fellow","NF"', '');
+							csv = csv.replace('"category","year","type","title","publication","citation","fellow","NF"', '');
+							csv = csv.replace('\\n', '');
+							console.log(csv);
 							fs.appendFile('nieman-winners.csv', csv, function (err){
 								console.log('Found winner: ' + fellow['FULL NAME']);
 								if(err) throw err;
