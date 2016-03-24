@@ -1,8 +1,8 @@
 #pulitzer-scraper
 
-Digging through the new pulitzer.org site, I found the API used to pull winners by year or category. Calls are based on term id (tid), a three digit number that corresponds to a specific category. I wrote a quick node-based scraper that pulls together a list of all the Pulitzer prize winners in a single CSV file.
+Digging through the new pulitzer.org site, I found the API used to pull winners by year or category. Calls are based on term id (tid), a three digit number that corresponds to a specific category. I wrote a quick node-based scraper that pulls together lists of all the Pulitzer prize winners and finalists in separate CSV files, as well as a list of all the revisions to categories over the years.
 
-_NOTE: Running the app requires 82 separate API calls. Use responsibly._
+_NOTE: Running the app requires 205 separate API calls to the Pulitzer site. Use responsibly._
 
 ##To run:
 
